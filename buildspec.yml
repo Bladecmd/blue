@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 22
+    commands:
+      - echo "Navigating to frontend and installing dependencies..."
+      - cd frontend # IMPORTANT: Change directory into the frontend folder
+      - npm install
+
+  build:
+    commands:
+      - echo "Building the React application..."
+      - npm run build # This command will now run from within the frontend directory
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: frontend/build # IMPORTANT: Specify the correct build output directory relative to the repository root
