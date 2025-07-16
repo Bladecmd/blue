@@ -9,26 +9,23 @@ phases:
       - pwd # Print current working directory
       - ls -l . # List contents of the current directory
       - echo "Navigating to frontend for install and installing dependencies..."
-      - cd frontend && npm install # This should pass based on previous logs
+      - cd frontend && npm install # This changes the directory for subsequent commands in this phase
+      - pwd # This will show /codebuild/output/src.../src/frontend
+      - ls -l . # This will show contents of frontend directory
 
   build:
     commands:
       - echo "--- Entering BUILD phase ---"
-      - pwd # Print current working directory
-      - ls -l . # List contents of the current directory
-      - echo "--- Attempting to enter frontend directory for build phase ---"
-      - cd frontend # This is where the error occurs, let's see why
-      - echo "--- Successfully entered frontend directory. Listing its contents ---"
-      - ls -l . # List contents of the frontend directory
-      - ls -l src/ # List contents of the frontend/src/ folder
+      - pwd # Print current working directory (should be /codebuild/output/src.../src/frontend)
+      - ls -l . # List contents of the current directory (should be contents of frontend)
       - echo "--- Building the React application ---"
-      - npm run build
+      - npm run build # Now npm run build will execute in the frontend directory
       - echo "--- Listing contents of build directory AFTER build ---"
-      - ls -l build/
+      - ls -l build/ # This is now relative to frontend/
       - ls -l build/static/js/
       - ls -l build/static/css/
 
 artifacts:
   files:
     - '**/*'
-  base-directory: frontend/build
+  base-directory: frontend/build # This path is relative to CODEBUILD_SRC_DIR
