@@ -6,17 +6,19 @@ phases:
       nodejs: 22
     commands:
       - echo "Navigating to frontend for install and installing dependencies..."
-      - cd frontend && npm install # Ensure npm install runs in frontend
+      - cd frontend && npm install # This phase ran successfully, confirming frontend exists here for install
 
   build:
     commands:
+      - echo "--- Listing root directory contents at start of BUILD phase ---"
+      - ls -l . # This will show what's directly in /codebuild/output/srcXYZ/src/ (the repository root)
       - echo "--- Entering frontend directory for build phase ---"
-      - cd frontend # Change to frontend directory for the rest of this phase
+      - cd frontend # This is the command that previously failed
       - echo "--- Listing contents of current directory (frontend) BEFORE build ---"
       - ls -l .
-      - ls -l src/ # List content of src/ relative to frontend
+      - ls -l src/
       - echo "--- Building the React application ---"
-      - npm run build # Now 'npm run build' runs directly in 'frontend'
+      - npm run build
       - echo "--- Listing contents of build directory AFTER build ---"
       - ls -l build/
       - ls -l build/static/js/
