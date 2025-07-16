@@ -5,20 +5,22 @@ phases:
     runtime-versions:
       nodejs: 22
     commands:
-      - echo "Navigating to frontend and installing dependencies..."
+      - echo "Navigating to frontend for install and installing dependencies..."
       - cd frontend && npm install # Ensure npm install runs in frontend
 
   build:
     commands:
-      - echo "--- Listing contents of frontend directory BEFORE build ---"
-      - ls -l frontend/
-      - ls -l frontend/src/
+      - echo "--- Entering frontend directory for build phase ---"
+      - cd frontend # Change to frontend directory for the rest of this phase
+      - echo "--- Listing contents of current directory (frontend) BEFORE build ---"
+      - ls -l .
+      - ls -l src/ # List content of src/ relative to frontend
       - echo "--- Building the React application ---"
-      - cd frontend && npm run build # Ensure npm run build runs in frontend
+      - npm run build # Now 'npm run build' runs directly in 'frontend'
       - echo "--- Listing contents of build directory AFTER build ---"
-      - ls -l frontend/build/
-      - ls -l frontend/build/static/js/
-      - ls -l frontend/build/static/css/ # Also check CSS files
+      - ls -l build/
+      - ls -l build/static/js/
+      - ls -l build/static/css/
 
 artifacts:
   files:
