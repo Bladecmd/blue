@@ -3,29 +3,34 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 22
+      # Changed from 22 to 16. Node.js 16 is an LTS version and generally
+      # compatible with older Create React App projects which might encounter
+      # issues with newer Node.js versions and module resolution.
+      nodejs: 16
     commands:
       - echo "--- Entering INSTALL phase ---"
       - pwd # Print current working directory
       - ls -l . # List contents of the current directory
       - echo "Navigating to frontend for install and installing dependencies..."
-      - cd frontend && npm install # This changes the directory for subsequent commands in this phase
-      - pwd # This will show /codebuild/output/src.../src/frontend
-      - ls -l . # This will show contents of frontend directory
+      - cd frontend && npm install
+      - pwd
+      - ls -l .
 
   build:
     commands:
       - echo "--- Entering BUILD phase ---"
-      - pwd # Print current working directory (should be /codebuild/output/src.../src/frontend)
-      - ls -l . # List contents of the current directory (should be contents of frontend)
+      - pwd
+      - ls -l .
       - echo "--- Building the React application ---"
-      - npm run build # Now npm run build will execute in the frontend directory
+      - npm run build
       - echo "--- Listing contents of build directory AFTER build ---"
-      - ls -l build/ # This is now relative to frontend/
+      # These commands will only work if the 'build' directory is created.
+      # They are kept for illustrative purposes to check build output.
+      - ls -l build/
       - ls -l build/static/js/
       - ls -l build/static/css/
 
 artifacts:
   files:
     - '**/*'
-  base-directory: frontend/build # This path is relative to CODEBUILD_SRC_DIR
+  base-directory: frontend/build # This should be the directory containing the build output (e.g., 'build' folder for Create React App)
