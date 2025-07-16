@@ -5,24 +5,30 @@ phases:
     runtime-versions:
       nodejs: 22
     commands:
+      - echo "--- Entering INSTALL phase ---"
+      - pwd # Print current working directory
+      - ls -l . # List contents of the current directory
       - echo "Navigating to frontend for install and installing dependencies..."
-      - cd frontend && npm install # This will now correctly find frontend/package.json
+      - cd frontend && npm install # This should pass based on previous logs
 
   build:
     commands:
-      - echo "--- Entering frontend directory for build phase ---"
-      - cd frontend # Need to change back into frontend for this phase too, as each phase starts from root
-      - echo "--- Listing contents of current directory (frontend) BEFORE build ---"
-      - ls -l . # This will now list contents of the 'frontend' directory
-      - ls -l src/ # This will list contents of 'frontend/src/'
+      - echo "--- Entering BUILD phase ---"
+      - pwd # Print current working directory
+      - ls -l . # List contents of the current directory
+      - echo "--- Attempting to enter frontend directory for build phase ---"
+      - cd frontend # This is where the error occurs, let's see why
+      - echo "--- Successfully entered frontend directory. Listing its contents ---"
+      - ls -l . # List contents of the frontend directory
+      - ls -l src/ # List contents of the frontend/src/ folder
       - echo "--- Building the React application ---"
-      - npm run build # This will run correctly in 'frontend/'
+      - npm run build
       - echo "--- Listing contents of build directory AFTER build ---"
-      - ls -l build/ # This will list contents of 'frontend/build/'
+      - ls -l build/
       - ls -l build/static/js/
       - ls -l build/static/css/
 
 artifacts:
   files:
     - '**/*'
-  base-directory: frontend/build # Correct base directory for artifacts
+  base-directory: frontend/build
