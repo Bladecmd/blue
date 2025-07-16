@@ -6,15 +6,14 @@ phases:
       nodejs: 22
     commands:
       - echo "Navigating to frontend and installing dependencies..."
-      - cd frontend # IMPORTANT: Change directory into the frontend folder
-      - npm install
+      - cd frontend && npm install # Change directory AND run install
 
   build:
     commands:
       - echo "Building the React application..."
-      - npm run build # This command will now run from within the frontend directory
+      - cd frontend && npm run build # Change directory AND run build
 
 artifacts:
   files:
     - '**/*'
-  base-directory: frontend/build # IMPORTANT: Specify the correct build output directory relative to the repository root
+  base-directory: frontend/build
