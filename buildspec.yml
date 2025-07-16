@@ -5,22 +5,24 @@ phases:
     runtime-versions:
       nodejs: 22
     commands:
-      - echo "Installing dependencies from the root directory..."
-      - npm install # Install dependencies directly in the repository root
+      - echo "Navigating to frontend for install and installing dependencies..."
+      - cd frontend && npm install # This will now correctly find frontend/package.json
 
   build:
     commands:
-      - echo "--- Listing root directory contents BEFORE build ---"
-      - ls -l . # List contents of the repository root
-      - ls -l src/ # List contents of the src/ folder
-      - echo "--- Building the React application from the root ---"
-      - npm run build # Now 'npm run build' runs directly in the repository root
+      - echo "--- Entering frontend directory for build phase ---"
+      - cd frontend # Need to change back into frontend for this phase too, as each phase starts from root
+      - echo "--- Listing contents of current directory (frontend) BEFORE build ---"
+      - ls -l . # This will now list contents of the 'frontend' directory
+      - ls -l src/ # This will list contents of 'frontend/src/'
+      - echo "--- Building the React application ---"
+      - npm run build # This will run correctly in 'frontend/'
       - echo "--- Listing contents of build directory AFTER build ---"
-      - ls -l build/
+      - ls -l build/ # This will list contents of 'frontend/build/'
       - ls -l build/static/js/
       - ls -l build/static/css/
 
 artifacts:
   files:
     - '**/*'
-  base-directory: build # The 'build' folder will be created directly in the root, not inside 'frontend/'
+  base-directory: frontend/build # Correct base directory for artifacts
