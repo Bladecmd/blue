@@ -5,20 +5,16 @@ phases:
     runtime-versions:
       nodejs: 22
     commands:
-      - echo "Navigating to frontend for install and installing dependencies..."
-      - cd frontend && npm install # This phase ran successfully, confirming frontend exists here for install
+      - echo "Installing dependencies from the root directory..."
+      - npm install # Install dependencies directly in the repository root
 
   build:
     commands:
-      - echo "--- Listing root directory contents at start of BUILD phase ---"
-      - ls -l . # This will show what's directly in /codebuild/output/srcXYZ/src/ (the repository root)
-      - echo "--- Entering frontend directory for build phase ---"
-      - cd frontend # This is the command that previously failed
-      - echo "--- Listing contents of current directory (frontend) BEFORE build ---"
-      - ls -l .
-      - ls -l src/
-      - echo "--- Building the React application ---"
-      - npm run build
+      - echo "--- Listing root directory contents BEFORE build ---"
+      - ls -l . # List contents of the repository root
+      - ls -l src/ # List contents of the src/ folder
+      - echo "--- Building the React application from the root ---"
+      - npm run build # Now 'npm run build' runs directly in the repository root
       - echo "--- Listing contents of build directory AFTER build ---"
       - ls -l build/
       - ls -l build/static/js/
@@ -27,4 +23,4 @@ phases:
 artifacts:
   files:
     - '**/*'
-  base-directory: frontend/build
+  base-directory: build # The 'build' folder will be created directly in the root, not inside 'frontend/'
