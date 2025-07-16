@@ -6,12 +6,19 @@ phases:
       nodejs: 22
     commands:
       - echo "Navigating to frontend and installing dependencies..."
-      - cd frontend && npm install # Change directory AND run install
+      - cd frontend && npm install # Ensure npm install runs in frontend
 
   build:
     commands:
-      - echo "Building the React application..."
-      - cd frontend && npm run build # Change directory AND run build
+      - echo "--- Listing contents of frontend directory BEFORE build ---"
+      - ls -l frontend/
+      - ls -l frontend/src/
+      - echo "--- Building the React application ---"
+      - cd frontend && npm run build # Ensure npm run build runs in frontend
+      - echo "--- Listing contents of build directory AFTER build ---"
+      - ls -l frontend/build/
+      - ls -l frontend/build/static/js/
+      - ls -l frontend/build/static/css/ # Also check CSS files
 
 artifacts:
   files:
